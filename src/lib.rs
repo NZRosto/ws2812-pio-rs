@@ -13,6 +13,8 @@
 //! Bear in mind that you will have to take care of timing requirements
 //! yourself then.
 
+use core::convert::Infallible;
+
 use embedded_hal::delay::DelayNs;
 use fugit::HertzU32;
 use rp2040_hal::{
@@ -156,7 +158,7 @@ where
     SM: StateMachineIndex,
 {
     type Color = smart_leds_trait::RGB8;
-    type Error = ();
+    type Error = Infallible;
     /// If you call this function, be advised that you will have to wait
     /// at least 60 microseconds between calls of this function!
     /// That means, either you get hold on a timer and the timing
@@ -164,7 +166,7 @@ where
     ///
     /// Please bear in mind, that it still blocks when writing into the
     /// PIO FIFO until all data has been transmitted to the LED chain.
-    fn write<T, J>(&mut self, iterator: T) -> Result<(), ()>
+    fn write<T, J>(&mut self, iterator: T) -> Result<(), Infallible>
     where
         T: IntoIterator<Item = J>,
         J: Into<Self::Color>,
@@ -252,8 +254,8 @@ where
     SM: StateMachineIndex,
 {
     type Color = smart_leds_trait::RGB8;
-    type Error = ();
-    fn write<T, J>(&mut self, iterator: T) -> Result<(), ()>
+    type Error = Infallible;
+    fn write<T, J>(&mut self, iterator: T) -> Result<(), Infallible>
     where
         T: IntoIterator<Item = J>,
         J: Into<Self::Color>,
